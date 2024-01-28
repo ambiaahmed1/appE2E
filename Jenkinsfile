@@ -23,7 +23,7 @@ pipeline {
           dir(dockerProjectDirectory) {
             // Build Docker image
             sh "docker build -t ${dockerImageName}:${dockerImageTag} ."
-
+          }
         }
       }
     }
