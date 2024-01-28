@@ -5,11 +5,9 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout the source code from the specified Git repository
-                checkout([$class: 'GitSCM', branches: [
-                    [name: '*/main']
-                ], userRemoteConfigs: [
-                    [url: 'https://github.com/ambiaahmed1/appE2E']
-                ]])
+                checkout([$class:'GitSCM',
+                    branches:[[name:'*/main']],
+                    userRemoteConfigs:[[url:'https://github.com/ambiaahmed1/appE2E']]])
             }
         }
 
@@ -36,14 +34,15 @@ pipeline {
             }
         }
 
-    post {
-        success {
-            echo 'Pipeline succeeded!'
-            // Add any additional success actions or notifications
-        }
-        failure {
-            echo 'Pipeline failed!'
-            // Add any additional failure actions or notifications
+        post {
+            success {
+                echo 'Pipeline succeeded!'
+                // Add any additional success actions or notifications
+            }
+            failure {
+                echo 'Pipeline failed!'
+                // Add any additional failure actions or notifications
+            }
         }
     }
 }
