@@ -9,6 +9,34 @@ pipeline {
             }
         }
 
+       stage('Build Docker Image') {
+           steps {
+               script {
+                   def dockerProjectDirectory = '/var/lib/jenkins/workspace/App'
+                   def dockerImageName = 'App'
+                   def dockerImageTag = 'latest'
+                   // Change to your Docker project directory
+                   dir(dockerProjectDirectory) {
+                       // Build Docker image
+                       sh "sudo docker build -t ${dockerImageName}:${dockerImageTag} ."
+                   }
+               }
+           }
+       }
+
+        stage('Build') {
+            steps {
+                // Build the Spring Boot application using Maven
+                sh 'mvn clean install'
+            }
+        }
+
         // Add more stages for additional build, test, deploy steps, etc.
+    }
+
+    post {
+        always {
+            // Clean up resources, if needed
+        }
     }
 }
