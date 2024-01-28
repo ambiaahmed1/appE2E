@@ -37,8 +37,10 @@ pipeline {
                             sh "echo ${DOCKER_HUB_CREDENTIALS} | docker login -u ambiaahmed1 --password-stdin"
                             sh "docker push ambiaahmed1/${dockerImageName}:${dockerImageTag}"
                     }
+                  }
                 }
             }
         }
     }
 }
+
