@@ -17,7 +17,7 @@ pipeline {
       steps {
         script {
           def dockerProjectDirectory = '/var/lib/jenkins/workspace/App'
-          def dockerImageName = 'App'
+          def dockerImageName = 'app'
           def dockerImageTag = 'latest'
           // Change to your Docker project directory
           dir(dockerProjectDirectory) {
