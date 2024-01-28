@@ -36,15 +36,6 @@ pipeline {
             }
         }
 
-        // Add more stages for additional build, test, deploy steps, etc.
-
-        stage('Deploy') {
-            steps {
-                // Add deployment steps here (e.g., deploy to Kubernetes, AWS, etc.)
-            }
-        }
-    }
-
     post {
         success {
             echo 'Pipeline succeeded!'
