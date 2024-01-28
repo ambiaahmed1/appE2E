@@ -33,16 +33,5 @@ pipeline {
                 }
             }
         }
-
-        post {
-            success {
-                echo 'Pipeline succeeded!'
-                // Add any additional success actions or notifications
-            }
-            failure {
-                echo 'Pipeline failed!'
-                // Add any additional failure actions or notifications
-            }
-        }
     }
 }
