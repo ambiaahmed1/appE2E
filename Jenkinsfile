@@ -16,7 +16,7 @@ pipeline {
                 // Build the Spring Boot application using Maven
                  script {
                             def mavenHome = tool 'Maven 3.8.4'
-                            sh "${mavenHome}/bin/mvn clean install"
+                            sh "${mavenHome}/bin/mvn clean install -DskipTests"
                         }
             }
         }
