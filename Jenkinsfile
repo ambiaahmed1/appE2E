@@ -13,6 +13,13 @@ pipeline {
       }
     }
 
+    stage('Build') {
+      steps {
+        // Build the Spring Boot application using Maven
+        sh 'mvn clean install'
+      }
+    }
+
     stage('Build Docker Image') {
       steps {
         script {
@@ -25,13 +32,6 @@ pipeline {
             sh "docker build -t ${dockerImageName}:${dockerImageTag} ."
           }
         }
-      }
-    }
-
-    stage('Build') {
-      steps {
-        // Build the Spring Boot application using Maven
-        sh 'mvn clean install'
       }
     }
 
