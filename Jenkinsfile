@@ -32,6 +32,10 @@ pipeline {
                     dir(dockerProjectDirectory) {
                         // Build Docker image
                         sh "docker build -t ${dockerImageName}:${dockerImageTag} ."
+                    // Push Docker image to Docker Hub
+                        withCredentials([string(credentialsId: 'docker-hub-credentials', variable: 'DOCKER_HUB_CREDENTIALS')]) {
+                            sh "echo ${DOCKER_HUB_CREDENTIALS} | docker login -u ambiaahmed1 --password-stdin"
+                            sh "docker push ambiaahmed1/${dockerImageName}:${dockerImageTag}"
                     }
                 }
             }
