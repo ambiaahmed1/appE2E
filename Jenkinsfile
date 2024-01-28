@@ -4,24 +4,23 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Checkout the source code from the specified Git repository
                 checkout([$class:'GitSCM',
                     branches:[[name:'*/main']],
                     userRemoteConfigs:[[url:'https://github.com/ambiaahmed1/appE2E']]])
             }
         }
 
-        stage('Build') {
+        stage('Build Application') {
             steps {
                 // Build the Spring Boot application using Maven
-                 script {
-                            def mavenHome = tool 'Maven 3.8.4'
-                            sh "${mavenHome}/bin/mvn clean install -DskipTests"
-                        }
+                script {
+                    def mavenHome = tool 'Maven 3.8.4'
+                    sh "${mavenHome}/bin/mvn clean install -DskipTests"
+                }
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Build and Push Docker Image') {
             steps {
                 script {
                     def dockerProjectDirectory = '/var/lib/jenkins/workspace/App'
@@ -32,15 +31,18 @@ pipeline {
                     dir(dockerProjectDirectory) {
                         // Build Docker image
                         sh "docker build -t ${dockerImageName}:${dockerImageTag} ."
-                    // Push Docker image to Docker Hub
-                        withCredentials([string(credentialsId: 'docker-hub-credentials', variable: 'DOCKER_HUB_CREDENTIALS')]) {
-                            sh "echo ${DOCKER_HUB_CREDENTIALS} | docker login -u ambiaahmed1 --password-stdin"
-                            sh "docker push ambiaahmed1/${dockerImageName}:${dockerImageTag}"
+
+                        // Retrieve Docker Hub credentials
+                        withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                            // Log in to Docker Hub
+                            sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
+
+                            // Push Docker image to Docker Hub
+                            sh "docker push ${dockerImageName}:${dockerImageTag}"
+                        }
                     }
-                  }
                 }
             }
         }
     }
 }
-
