@@ -14,7 +14,10 @@ pipeline {
         stage('Build') {
             steps {
                 // Build the Spring Boot application using Maven
-                sh 'mvn clean install'
+                 script {
+                            def mavenHome = tool 'Maven 3.8.4'
+                            sh "${mavenHome}/bin/mvn clean install"
+                        }
             }
         }
 
