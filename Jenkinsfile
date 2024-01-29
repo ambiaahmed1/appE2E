@@ -38,7 +38,8 @@ pipeline {
                             // some block
                             sh 'docker login -u ambiaahmed1 -p ${dockerhubpwd}'
 
-                            sh 'docker push ambiaahmed1/${dockerImageTag}'
+                             // Push Docker image to Docker Hub
+                            sh "docker push ambiaahmed1/${dockerImageName}:${dockerImageTag}"
                         }
                     }
                 }
