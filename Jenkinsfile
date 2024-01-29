@@ -31,7 +31,7 @@ pipeline {
                     // Change to your Docker project directory
                     dir(dockerProjectDirectory) {
                         // Build Docker image
-                        sh "docker build -t ${dockerImageName}:${dockerImageTag} ."
+                        sh "docker build -t ambiaahmed1/${dockerImageName}:${dockerImageTag} ."
 
                         // Retrieve Docker Hub credentials
                         withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
