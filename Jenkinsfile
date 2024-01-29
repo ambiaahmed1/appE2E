@@ -20,6 +20,7 @@ pipeline {
             }
         }
 
+
         stage('Build and Push Docker Image') {
             steps {
                 script {
@@ -33,12 +34,11 @@ pipeline {
                         sh "docker build -t ${dockerImageName}:${dockerImageTag} ."
 
                         // Retrieve Docker Hub credentials
-                        withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                         // Log in to Docker Hub using --password-stdin
-                            sh "echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin"
+                        withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
+                            // some block
+                            sh 'docker login -u ambiaahmed1 -p ${dockerhubpwd}'
 
-                            // Push Docker image to Docker Hub
-                            sh "docker push ${dockerImageName}:${dockerImageTag}"
+                            sh 'docker push ambiaahmed1/${dockerImageTag}'
                         }
                     }
                 }
